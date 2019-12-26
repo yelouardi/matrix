@@ -1,18 +1,18 @@
 package com.humanup.matrix.vo;
 
-import java.util.List;
 
 public class ProfileVO {
     private String profileTitle;
     private String profileDescription;
-    private List<PersonVO> personList;
+    private int countPerson;
 
     public ProfileVO() {
     }
 
-    public ProfileVO(String profileTitle, String profileDescription) {
+    public ProfileVO(String profileTitle, String profileDescription,int countPerson) {
         this.profileTitle = profileTitle;
         this.profileDescription = profileDescription;
+        this.countPerson = countPerson;
     }
 
     public String getProfileTitle() {
@@ -21,13 +21,15 @@ public class ProfileVO {
     public String getProfileDescription() {
         return this.profileDescription;
     }
-    public List<PersonVO> getPersonList() {
-        return personList;
+
+    public int getCountPerson() {
+        return countPerson;
     }
+
     public static class Builder{
         private String profileTitle;
         private String profileDescription;
-        private List<PersonVO> personList;
+        private int countPerson;
         public Builder() {
         }
 
@@ -40,14 +42,15 @@ public class ProfileVO {
             return this;
         }
 
-        public ProfileVO build() {
-            return new ProfileVO(profileTitle, profileDescription);
-        }
-
-        public Builder setPersonList(List<PersonVO> personList) {
-            this.personList = personList;
+        public Builder setCountPerson(int countPerson) {
+            this.countPerson = countPerson;
             return this;
         }
+
+        public ProfileVO build() {
+            return new ProfileVO(profileTitle, profileDescription,countPerson);
+        }
+
     }
 
 }

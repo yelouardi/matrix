@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ProfileBS {
     boolean createProfile(ProfileVO profile);
-    ProfileVO findByProfileTitle(String profileTitle);
+    ProfileVO findProfileByTitle(String profileTitle);
     List<ProfileVO> findListProfile();
-     ProfileVO findListProfileByTitle(String title);
+    List<ProfileVO> findListProfilesByTitle(String title);
 }

@@ -2,7 +2,9 @@ package com.humanup.matrix.bs.impl;
 
 import com.humanup.matrix.bs.PersonBS;
 import com.humanup.matrix.dao.PersonDAO;
+import com.humanup.matrix.dao.ProfileDAO;
 import com.humanup.matrix.dao.entities.Person;
+import com.humanup.matrix.dao.entities.Profile;
 import com.humanup.matrix.vo.PersonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +19,19 @@ public class PersonBSImpl implements PersonBS {
   @Autowired
   private PersonDAO personDAO;
 
+  @Autowired
+  private ProfileDAO profileDAO;
+
   @Override
   public boolean createPerson(PersonVO personVO) {
-      Person personToSave =new Person.Builder()
+    Profile profile = profileDAO.findByProfileTitle(personVO.getProfile());
+
+    Person personToSave =new Person.Builder()
           .setFirstName(personVO.getFirstName())
           .setLastName(personVO.getLastName())
           .setMailAdresses(personVO.getMailAdresses())
           .setBirthDate(personVO.getBirthDate())
+           .setProfile(profile)
           .build();
     return  personDAO.save(personToSave)!=null;
   }
@@ -37,7 +45,8 @@ public class PersonBSImpl implements PersonBS {
           .setBirthDate(personFinded.get().getBirthDate())
           .setFirstName(personFinded.get().getFirstName())
           .setLastName(personFinded.get().getLastName())
-          .build();
+              .setProfile(personFinded.get().getProfile().getProfileTitle())
+              .build();
     }
     return null;
   }
@@ -51,8 +60,23 @@ public class PersonBSImpl implements PersonBS {
             .setBirthDate(personFinded.getBirthDate())
             .setFirstName(personFinded.getFirstName())
             .setLastName(personFinded.getLastName())
+                .setProfile(personFinded.getProfile().getProfileTitle())
             .build())
         .collect(Collectors.toList());
 
+  }
+
+  @Override
+  public List<PersonVO> findListProfilesByProfileTitle(String profileTitle) {
+    return personDAO.findListProfilesByProfileTitle(profileTitle)
+            .stream()
+            .map(personFinded -> new PersonVO.Builder()
+                    .setMailAdresses(personFinded.getMailAdresses())
+                    .setBirthDate(personFinded.getBirthDate())
+                    .setFirstName(personFinded.getFirstName())
+                    .setLastName(personFinded.getLastName())
+                    .setProfile(personFinded.getProfile().getProfileTitle())
+                    .build())
+            .collect(Collectors.toList());
   }
 }

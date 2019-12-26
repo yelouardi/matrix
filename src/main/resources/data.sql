@@ -21,10 +21,10 @@ INSERT INTO profile_person (profile_title, profile_description) VALUES
   last_name VARCHAR(250) NOT NULL,
   mail_adresses VARCHAR(250) DEFAULT NULL,
   birth_date DATE DEFAULT NULL,
-  profile_profile_id INT NOT NULL
+  profile_id INT NOT NULL
 );
 
-INSERT INTO person (first_name, last_name, mail_adresses, birth_date,profile_profile_id) VALUES
+INSERT INTO person (first_name, last_name, mail_adresses, birth_date,profile_id) VALUES
   ('Aliko', 'Dangote', 'adangote@sqli.com','1973-11-17',1),
   ('Amira', 'El ouardi', 'aelouardi@sqli.com','2015-09-26',1),
   ('Ibrahim', 'El ouardi', 'ielouardi@sqli.com','2016-10-23',2),
