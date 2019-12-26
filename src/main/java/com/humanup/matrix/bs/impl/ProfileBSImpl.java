@@ -28,12 +28,13 @@ public class ProfileBSImpl implements ProfileBS {
     }
 
     @Override
-    public ProfileVO findByProfileTitle(String profileTitle) {
+    public ProfileVO findProfileByTitle(String profileTitle) {
         Optional<Profile> profileFinded = Optional.ofNullable(profileDAO.findByProfileTitle(profileTitle));
         if(profileFinded.isPresent()) {
             return new ProfileVO.Builder()
                     .setProfileTitle(profileFinded.get().getProfileTitle())
                     .setProfileDescription(profileFinded.get().getProfileDescription())
+                    .setCountPerson(null!=profileFinded.get().getPersonList()?profileFinded.get().getPersonList().size():0)
                     .build();
         }
         return null;
@@ -46,29 +47,24 @@ public class ProfileBSImpl implements ProfileBS {
                 .map(profileFinded -> new ProfileVO.Builder()
                         .setProfileTitle(profileFinded.getProfileTitle())
                         .setProfileDescription(profileFinded.getProfileDescription())
+                        .setCountPerson(null!=profileFinded.getPersonList()?profileFinded.getPersonList().size():0)
                         .build())
                 .collect(Collectors.toList());
 
     }
 
     @Override
-    public ProfileVO findListProfileByTitle(String title) {
-        Optional<Profile> profileFinded = Optional.ofNullable(profileDAO.findByProfileTitle(title));
-        if(profileFinded.isPresent()) {
-            return new ProfileVO.Builder()
-                    .setProfileTitle(profileFinded.get().getProfileTitle())
-                    .setProfileDescription(profileFinded.get().getProfileDescription())
-                    .setPersonList(
-                            profileFinded.get().getPersonList()
-                                    .stream()
-                                    .map(person -> new PersonVO.Builder()
-                                            .setBirthDate(person.getBirthDate())
-                                            .setFirstName(person.getFirstName())
-                                            .setLastName(person.getLastName())
-                                            .setMailAdresses(person.getMailAdresses()).build())
-                                    .collect(Collectors.toList())
-                    )
-                    .build();
+    public List<ProfileVO> findListProfilesByTitle(String title) {
+        Optional<List<Profile>> listProfileFinded = Optional.ofNullable(profileDAO.findListProfilesByTitle(title));
+        if(listProfileFinded.isPresent()) {
+            return listProfileFinded.get()
+                    .stream()
+                    .map(profileFinded -> new ProfileVO.Builder()
+                            .setProfileTitle(profileFinded.getProfileTitle())
+                            .setProfileDescription(profileFinded.getProfileDescription())
+                            .setCountPerson(null!=profileFinded.getPersonList()?profileFinded.getPersonList().size():0)
+                            .build())
+                     .collect(Collectors.toList());
         }
         return null;
     }

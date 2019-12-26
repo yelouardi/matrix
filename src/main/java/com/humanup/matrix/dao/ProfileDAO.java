@@ -13,7 +13,7 @@ public interface ProfileDAO extends CrudRepository<Profile, Long> {
     Profile findByProfileTitle(String profileTitle);
     List<Profile> findAll();
     Profile findByProfileId(long profileId);
-    @Query("SELECT p FROM Profile p WHERE p.profileTitle = '%:profileTitle%' ")
-    List<Profile> findProfilesByTitle(String profileTitle);
+    @Query("SELECT p FROM Profile p WHERE lower(p.profileTitle) like %:profileTitle% ")
+    List<Profile> findListProfilesByTitle(String profileTitle);
 
 }

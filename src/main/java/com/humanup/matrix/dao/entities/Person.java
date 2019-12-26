@@ -13,7 +13,9 @@ public class Person{
   private String lastName;
   private String mailAdresses;
   private Date birthDate;
+
   @ManyToOne
+  @JoinColumn(name = "profileId")
   private Profile profile;
 
   protected Person() {}

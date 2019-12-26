@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @RestController
 public class PersonController {
   @Autowired
@@ -50,5 +51,15 @@ public class PersonController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     return ResponseEntity.status(HttpStatus.OK).body(findPersons);
+  }
+
+  @RequestMapping(value="/person/all/profile", method=RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity getProfilePersons(@RequestParam(value="title", defaultValue="Spring Developer") String profileTitle){
+    Optional<List<PersonVO>> findProfile = Optional.ofNullable(personBS.findListProfilesByProfileTitle(profileTitle));
+    if(findProfile.isEmpty()){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This Title not Found");
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(findProfile.get());
   }
 }
