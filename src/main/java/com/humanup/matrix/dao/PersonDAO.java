@@ -11,4 +11,5 @@ public interface PersonDAO extends CrudRepository<Person, Long> {
   Person findByMailAdresses(String mailAdresses);
   List<Person> findAll();
   Person findById(long id);
+
 }
