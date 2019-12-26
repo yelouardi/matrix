@@ -1,9 +1,6 @@
 package com.humanup.matrix.dao.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -16,14 +13,17 @@ public class Person{
   private String lastName;
   private String mailAdresses;
   private Date birthDate;
+  @ManyToOne
+  private Profile profile;
 
   protected Person() {}
 
-  public Person(String firstName, String lastName, String mailAdresses,Date birthDate ) {
+  public Person(String firstName, String lastName, String mailAdresses,Date birthDate, Profile profile) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.mailAdresses = mailAdresses;
     this.birthDate = birthDate;
+    this.profile = profile;
   }
 
   @Override
@@ -53,6 +53,10 @@ public class Person{
     return birthDate;
   }
 
+  public Profile getProfile() {
+        return this.profile;
+    }
+
 
   public static class Builder{
 
@@ -60,6 +64,7 @@ public class Person{
           private String lastName;
           private String mailAdresses;
           private Date birthDate;
+          private Profile profile;
 
            public Builder() {
            }
@@ -83,8 +88,13 @@ public class Person{
              this.birthDate = birthDate;
              return this;
            }
+
+           public Builder setProfile(Profile profile) {
+            this.profile = profile;
+            return this;
+            }
            public Person build(){
-             return new Person( firstName,  lastName,  mailAdresses, birthDate);
+             return new Person( firstName,  lastName,  mailAdresses, birthDate,profile);
            }
          }
 }
