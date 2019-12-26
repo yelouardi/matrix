@@ -8,4 +8,5 @@ public interface PersonBS {
   boolean createPerson(PersonVO person);
   PersonVO findPersonByMailAdresses(String mailAdresses);
   List<PersonVO> findListPerson();
+  List<PersonVO> findListProfilesByProfileTitle(String profileTitle);
 }

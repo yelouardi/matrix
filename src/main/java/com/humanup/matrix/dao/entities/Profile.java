@@ -15,7 +15,7 @@ public class Profile {
 
 
 
-    @OneToMany
+    @OneToMany(mappedBy="profile",fetch=FetchType.LAZY)
     private List<Person> personList;
 
     protected Profile() {}
