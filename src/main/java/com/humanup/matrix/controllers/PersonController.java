@@ -2,6 +2,7 @@ package com.humanup.matrix.controllers;
 
 import com.humanup.matrix.bs.PersonBS;
 import com.humanup.matrix.vo.PersonVO;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class PersonController {
   @Autowired
   private PersonBS personBS;
 
-
-  @RequestMapping(value="/person", method=RequestMethod.POST)
+  @Operation(summary = "Create Person", description = " Create new person by firstname, lastname ...", tags = { "person" })
+  @RequestMapping(value="/person", method=RequestMethod.POST,consumes={ "application/json"})
   @ResponseBody
   public ResponseEntity createPerson(@RequestBody PersonVO person){
     Optional<Object> findPerson = Optional.ofNullable(personBS.findPersonByMailAdresses(person.getMailAdresses()));
@@ -31,7 +32,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(person);
   }
 
-
+  @Operation(summary = "Find person by email", description = "Person search by %email% format", tags = { "person" })
   @RequestMapping(value="/person", method=RequestMethod.GET)
   @ResponseBody
   public ResponseEntity getPersonInfo(@RequestParam(value="email", defaultValue="robot@sqli.com") String email){
@@ -42,6 +43,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(findPerson.get());
   }
 
+  @Operation(summary = "Find all persosn", description = "Find all persons", tags = { "person" })
   @RequestMapping(value="/person/all", method=RequestMethod.GET)
   @ResponseBody
   public ResponseEntity getAllPersonInfo(){
@@ -53,6 +55,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(findPersons);
   }
 
+  @Operation(summary = "Find all persons by profile", description = "Find all persons by profile title", tags = { "person" })
   @RequestMapping(value="/person/all/profile", method=RequestMethod.GET)
   @ResponseBody
   public ResponseEntity getProfilePersons(@RequestParam(value="title", defaultValue="Spring Developer") String profileTitle){
