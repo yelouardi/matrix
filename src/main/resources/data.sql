@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS profile_person;
+DROP TABLE IF EXISTS skill;
 
 
 
@@ -29,3 +30,15 @@ INSERT INTO person (first_name, last_name, mail_adresses, birth_date,profile_id)
   ('Amira', 'El ouardi', 'aelouardi@sqli.com','2015-09-26',1),
   ('Ibrahim', 'El ouardi', 'ielouardi@sqli.com','2016-10-23',2),
   ('Yassine', 'El ouardi', 'yelouardi@sqli.com','1986-09-14',2);
+  
+CREATE TABLE skill (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  libelle VARCHAR(250) NOT NULL,
+  description VARCHAR(250) NOT NULL,
+  type_skill INT NOT NULL
+);
+
+INSERT INTO skill (libelle, description, type_skill) VALUES
+  ('Java', 'Java 8',1),
+  ('C#', 'C# description',1),
+  ('C++', 'C++ description',2)
