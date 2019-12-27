@@ -25,7 +25,9 @@ public class TypeSkillsBSImpl implements TypeSkillsBS {
 
 	@Override
 	public boolean createTypeSkills(TypeSkillsVO typeSkillsVO) {
-		TypeSkills typeToSave = new TypeSkills.Builder().setTitleSkill(typeSkillsVO.getTitleSkill()).build();
+		TypeSkills typeToSave = new TypeSkills.Builder()
+				.setTitleSkill(typeSkillsVO.getTitleSkill())
+				.build();
 		return typeSkillsDAO.save(typeToSave) != null;
 
 	}

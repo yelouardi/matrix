@@ -45,7 +45,9 @@ public class TypeSkills {
 			this.titleSkill = titleSkill;
 			return this;
 		}
-
+		public TypeSkills build(){
+			return new TypeSkills(titleSkill);
+		}
 	}
 
 }
