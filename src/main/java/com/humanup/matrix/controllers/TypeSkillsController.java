@@ -28,7 +28,7 @@ public class TypeSkillsController {
             return ResponseEntity.status(HttpStatus.FOUND).body("This type is Founded");
         }
         typeSkillsBS.createTypeSkills(typeSkills);
-        return ResponseEntity.status(HttpStatus.OK).body(typeSkillsBS);
+        return ResponseEntity.status(HttpStatus.CREATED).body(typeSkillsBS);
     }
 
     @Operation(summary = "Find types kills by title", description = "Type Skills search by %title% format", tags = { "typeskills" })
@@ -36,7 +36,7 @@ public class TypeSkillsController {
     @ResponseBody
     public ResponseEntity getTypeInfo(@RequestParam(value="title", defaultValue="Spring Boot") String title){
         Optional<List<TypeSkillsVO>> findType = Optional.ofNullable(typeSkillsBS.findListTypeSkillsByTitle(title));
-        if(findType.isEmpty()){
+        if(findType.get().isEmpty()){
             Optional<TypeSkillsVO> findTypeSkillsTitle = Optional.ofNullable(typeSkillsBS.findByTypeSkillsTitle(title));
             if(findTypeSkillsTitle.isEmpty())
             {
