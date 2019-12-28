@@ -1,59 +1,74 @@
 package com.humanup.matrix.bs.impl;
 
+import com.humanup.matrix.bs.SkillBS;
+import com.humanup.matrix.dao.SkillDAO;
+import com.humanup.matrix.dao.TypeSkillsDAO;
+import com.humanup.matrix.dao.entities.Skill;
+import com.humanup.matrix.dao.entities.TypeSkills;
+import com.humanup.matrix.vo.SkillVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.humanup.matrix.bs.SkillBS;
-import com.humanup.matrix.dao.SkillDAO;
-import com.humanup.matrix.dao.entities.Skill;
-import com.humanup.matrix.vo.SkillVO;
-
 @Service
 public class SkillBSImpl implements SkillBS {
 
-	  @Autowired
-	  private SkillDAO skillDAO;
+    @Autowired
+    private SkillDAO skillDAO;
 
-	@Override
-	public boolean createSkill(SkillVO skillVO) {
-	    Skill skillToSave =new Skill.Builder()
-	    		.setLibelle(skillVO.getLibelle())
-	    		.setDescription(skillVO.getDescription())
-	            .build();
-	      return  skillDAO.save(skillToSave)!=null;
-	}
+    @Autowired
+    private TypeSkillsDAO typeSkillsDAO;
 
-	@Override
-	public SkillVO findSkillByLibelle(String libelle) {
-	    Optional<Skill>  skillFinded = Optional.ofNullable(skillDAO.findSkillByLibelle(libelle));
-	    if(skillFinded.isPresent()) {
-	      return new SkillVO.Builder()
-	          .setLibelle(skillFinded.get().getLibelle())
-	          .setDescription(skillFinded.get().getDescription())
-	          .build();
-	    }
-	    return null;
-	}
+    @Override
+    public boolean createSkill(SkillVO skillVO) {
+        TypeSkills typeSkills = typeSkillsDAO.findByTitleSkill(skillVO.getTypeSkills());
 
-	@Override
-	public List<SkillVO> findListSkillByType(String type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        Skill skillToSave = new Skill.Builder()
+                .setLibelle(skillVO.getLibelle())
+                .setDescription(skillVO.getDescription())
+                .setTypeSkills(typeSkills)
+                .build();
+        return skillDAO.save(skillToSave) != null;
+    }
 
-	@Override
-	public List<SkillVO> findListSkill() {
-		 return skillDAO.findAll()
-			        .stream()
-			        .map(skillFinded -> new SkillVO.Builder()
-			            .setLibelle(skillFinded.getLibelle())
-			            .setDescription(skillFinded.getDescription())
-			            .build())
-			        .collect(Collectors.toList());
-	}
+    @Override
+    public SkillVO findSkillByLibelle(String libelle) {
+        Optional<Skill> skillFinded = Optional.ofNullable(skillDAO.findSkillByLibelle(libelle));
+        if (skillFinded.isPresent()) {
+            return new SkillVO.Builder()
+                    .setLibelle(skillFinded.get().getLibelle())
+                    .setDescription(skillFinded.get().getDescription())
+                    .setTypeSkills(skillFinded.get().getTypeSkills().getTitleSkill())
+                    .build();
+        }
+        return null;
+    }
+
+    @Override
+    public List<SkillVO> findListSkillByTypeTitle(String titleSkill) {
+		return skillDAO.findListSkillByTypeTitle(titleSkill)
+				.stream()
+				.map(skillFinded -> new SkillVO.Builder()
+						.setLibelle(skillFinded.getLibelle())
+						.setDescription(skillFinded.getDescription())
+						.setTypeSkills(skillFinded.getTypeSkills().getTitleSkill())
+						.build())
+				.collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SkillVO> findListSkill() {
+        return skillDAO.findAll()
+                .stream()
+                .map(skillFinded -> new SkillVO.Builder()
+                        .setLibelle(skillFinded.getLibelle())
+                        .setDescription(skillFinded.getDescription())
+                        .setTypeSkills(skillFinded.getTypeSkills().getTitleSkill())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
 }

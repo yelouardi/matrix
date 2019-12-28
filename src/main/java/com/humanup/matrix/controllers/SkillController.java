@@ -21,7 +21,7 @@ public class SkillController {
 	  @Autowired
 	  private SkillBS skillBS;
 	  
-	  @RequestMapping(value="/skill", method=RequestMethod.POST)
+	  @RequestMapping(value="/skill", method=RequestMethod.POST,consumes={ "application/json"})
 	  @ResponseBody
 	  public ResponseEntity createSkill(@RequestBody SkillVO skill){
 	    Optional<Object> findskill = Optional.ofNullable(skillBS.findSkillByLibelle(skill.getLibelle()));
@@ -36,8 +36,8 @@ public class SkillController {
 
 	  @RequestMapping(value="/skill", method=RequestMethod.GET)
 	  @ResponseBody
-	  public ResponseEntity getSkillInfo(@RequestParam(value="libelle", defaultValue="Java") String email){
-	    Optional<SkillVO> findSkill = Optional.ofNullable(skillBS.findSkillByLibelle(email));
+	  public ResponseEntity getSkillInfo(@RequestParam(value="libelle", defaultValue="C++") String libelle){
+	    Optional<SkillVO> findSkill = Optional.ofNullable(skillBS.findSkillByLibelle(libelle));
 	    if(findSkill.isEmpty()){
 	      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	    }
@@ -55,13 +55,13 @@ public class SkillController {
 	    return ResponseEntity.status(HttpStatus.OK).body(findskills);
 	  }
 
-//	  @RequestMapping(value="/person/all/profile", method=RequestMethod.GET)
-//	  @ResponseBody
-//	  public ResponseEntity getProfilePersons(@RequestParam(value="title", defaultValue="Spring Developer") String profileTitle){
-//	    Optional<List<PersonVO>> findProfile = Optional.ofNullable(personBS.findListProfilesByProfileTitle(profileTitle));
-//	    if(findProfile.isEmpty()){
-//	      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This Title not Found");
-//	    }
-//	    return ResponseEntity.status(HttpStatus.OK).body(findProfile.get());
-//	  }
+	  @RequestMapping(value="/skill/all/type", method=RequestMethod.GET)
+	  @ResponseBody
+	  public ResponseEntity getTypeSkills(@RequestParam(value="type", defaultValue="audace") String typeSkill){
+	    Optional<List<SkillVO>> findSkill = Optional.ofNullable(skillBS.findListSkillByTypeTitle(typeSkill));
+	    if(findSkill.isEmpty()){
+	      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This Type not Found");
+	    }
+	    return ResponseEntity.status(HttpStatus.OK).body(findSkill.get());
+	  }
 }
