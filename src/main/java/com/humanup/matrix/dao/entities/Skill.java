@@ -1,6 +1,8 @@
 package com.humanup.matrix.dao.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Skill {
@@ -14,6 +16,14 @@ public class Skill {
 	@ManyToOne
 	@JoinColumn(name = "typeId")
 	private TypeSkills typeSkills;
+
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			},
+			mappedBy = "skills")
+	private Set<Person> persons = new HashSet<>();
 
 	protected Skill() {
 	}
@@ -38,6 +48,10 @@ public class Skill {
 
 	public TypeSkills getTypeSkills() {
 		return this.typeSkills;
+	}
+
+	public Set<Person> getPersons() {
+		return persons;
 	}
 
 	@Override

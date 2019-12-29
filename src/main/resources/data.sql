@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS profile_person;
 DROP TABLE IF EXISTS skill;
 DROP TABLE IF EXISTS type_skills;
+DROP TABLE IF EXISTS person_skill;
 
 
 CREATE TABLE profile_person (
@@ -53,3 +54,15 @@ INSERT INTO skill (libelle, description, type_id) VALUES
   ('C#', 'C# description',1),
   ('C++', 'C++ description',2);
 
+
+CREATE TABLE person_skill (
+  person_id INT NOT NULL,
+  skill_id INT NOT NULL
+);
+INSERT INTO person_skill (person_id, skill_id) VALUES
+  (4, 1),
+  (4, 2),
+  (4, 3),
+   (3, 1),
+   (2, 2),
+   (3, 3);
