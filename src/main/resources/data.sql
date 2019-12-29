@@ -45,10 +45,10 @@ CREATE TABLE skill (
   id INT AUTO_INCREMENT  PRIMARY KEY,
   libelle VARCHAR(250) NOT NULL,
   description VARCHAR(250) NOT NULL,
-  type_skill INT NOT NULL
+  type_id INT NOT NULL
 );
 
-INSERT INTO skill (libelle, description, type_skill) VALUES
+INSERT INTO skill (libelle, description, type_id) VALUES
   ('Java', 'Java 8',1),
   ('C#', 'C# description',1),
   ('C++', 'C++ description',2);

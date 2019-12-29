@@ -3,6 +3,7 @@ package com.humanup.matrix.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ import com.humanup.matrix.vo.SkillVO;
 public class SkillController {
 	  @Autowired
 	  private SkillBS skillBS;
-	  
+
+	  @Operation(summary = "Create Skill", description = " Create new Skill by Libelle, Description ...", tags = { "skill" })
 	  @RequestMapping(value="/skill", method=RequestMethod.POST,consumes={ "application/json"})
 	  @ResponseBody
 	  public ResponseEntity createSkill(@RequestBody SkillVO skill){
@@ -30,10 +32,10 @@ public class SkillController {
 	      return ResponseEntity.status(HttpStatus.FOUND).body("This Skill is Founded");
 	    }
 	    skillBS.createSkill(skill);
-	    return ResponseEntity.status(HttpStatus.OK).body(skill);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(skill);
 	  }
 
-
+	  @Operation(summary = "Find skill by libelle", description = "Skill search by %libelle% format", tags = { "skill" })
 	  @RequestMapping(value="/skill", method=RequestMethod.GET)
 	  @ResponseBody
 	  public ResponseEntity getSkillInfo(@RequestParam(value="libelle", defaultValue="C++") String libelle){
@@ -44,6 +46,7 @@ public class SkillController {
 	    return ResponseEntity.status(HttpStatus.OK).body(findSkill.get());
 	  }
 
+	  @Operation(summary = "Find all skill", description = "Find all skills", tags = { "skill" })
 	  @RequestMapping(value="/skill/all", method=RequestMethod.GET)
 	  @ResponseBody
 	  public ResponseEntity getAllSkillInfo(){
@@ -55,10 +58,11 @@ public class SkillController {
 	    return ResponseEntity.status(HttpStatus.OK).body(findskills);
 	  }
 
-	  @RequestMapping(value="/skill/all/type", method=RequestMethod.GET)
+	@Operation(summary = "Find all skill by type", description = "Find all skill by type title", tags = { "skill" })
+	@RequestMapping(value="/skill/all/type", method=RequestMethod.GET)
 	  @ResponseBody
-	  public ResponseEntity getTypeSkills(@RequestParam(value="type", defaultValue="audace") String typeSkill){
-	    Optional<List<SkillVO>> findSkill = Optional.ofNullable(skillBS.findListSkillByTypeTitle(typeSkill));
+	  public ResponseEntity getTypeSkills(@RequestParam(value="typeSkills", defaultValue="audace") String typeSkills){
+	    Optional<List<SkillVO>> findSkill = Optional.ofNullable(skillBS.findListSkillByTypeTitle(typeSkills));
 	    if(findSkill.isEmpty()){
 	      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This Type not Found");
 	    }
