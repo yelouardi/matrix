@@ -66,9 +66,9 @@ INSERT INTO skill (libelle, description, type_id) VALUES
   ('Java', 'Java 8',1),
   ('C#', 'C# description',1),
   ('C++', 'C++ description',2),
-  ("coach agile", 'coach agile',4),
-  ('scrum master', 'scrum master',3),
-  ('craft man', 'craft man software',4),
+  ('coach-agile', 'coach agile',4),
+  ('scrum-master', 'scrum master',3),
+  ('craft-man', 'craft man software',4),
   ('webpack', 'Web pack build',5),
   ('reactjs', 'Developpment React JS',5);
 
