@@ -13,6 +13,10 @@ import com.humanup.matrix.exceptions.ProfileException;
 import com.humanup.matrix.vo.PersonVO;
 import com.humanup.matrix.vo.SkillVO;
 import com.humanup.matrix.vo.TypeSkillsVO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -46,12 +51,12 @@ public class PersonBSImpl implements PersonBS {
     if(null == profile || null == email || StringUtils.isEmpty(email)){
       throw new ProfileException();
     }
-    Person personToSave =new Person.Builder()
-          .setFirstName(personVO.getFirstName())
-          .setLastName(personVO.getLastName())
-          .setMailAdresses(email)
-          .setBirthDate(personVO.getBirthDate())
-           .setProfile(profile)
+    Person personToSave = Person.builder()
+          .firstName(personVO.getFirstName())
+          .lastName(personVO.getLastName())
+          .mailAdresses(email)
+          .birthDate(personVO.getBirthDate())
+           .profile(profile)
           .build();
     return  personDAO.save(personToSave)!=null;
   }
@@ -77,17 +82,17 @@ public class PersonBSImpl implements PersonBS {
   public PersonVO findPersonByMailAdresses(String mailAdresses) {
     Optional<Person>  personFinded = Optional.ofNullable(personDAO.findByMailAdresses(mailAdresses));
     if(personFinded.isPresent()) {
-      return new PersonVO.Builder()
-          .setMailAdresses(personFinded.get().getMailAdresses())
-          .setBirthDate(personFinded.get().getBirthDate())
-          .setFirstName(personFinded.get().getFirstName())
-          .setLastName(personFinded.get().getLastName())
-              .setProfile(personFinded.get().getProfile().getProfileTitle())
-              .setSkills(personFinded.get().getSkills().stream()
-              .map(skill -> new SkillVO.Builder()
-              .setLibelle(skill.getLibelle())
-                      .setTypeSkills(skill.getTypeSkills().getTitleSkill())
-              .setDescription(skill.getDescription()).build())
+      return PersonVO.builder()
+          .mailAdresses(personFinded.get().getMailAdresses())
+          .birthDate(personFinded.get().getBirthDate())
+          .firstName(personFinded.get().getFirstName())
+          .lastName(personFinded.get().getLastName())
+              .profile(personFinded.get().getProfile().getProfileTitle())
+              .skillVOList(personFinded.get().getSkills().stream()
+              .map(skill -> SkillVO.builder()
+              .libelle(skill.getLibelle())
+                      .typeSkills(skill.getTypeSkills().getTitleSkill())
+              .description(skill.getDescription()).build())
               .collect(Collectors.toList()))
               .build();
     }
@@ -98,17 +103,17 @@ public class PersonBSImpl implements PersonBS {
   public List<PersonVO> findListPerson() {
     return personDAO.findAll()
         .stream()
-        .map(personFinded -> new PersonVO.Builder()
-            .setMailAdresses(personFinded.getMailAdresses())
-            .setBirthDate(personFinded.getBirthDate())
-            .setFirstName(personFinded.getFirstName())
-            .setLastName(personFinded.getLastName())
-            .setProfile(personFinded.getProfile().getProfileTitle())
-                .setSkills(personFinded.getSkills().stream()
-                        .filter(skill -> skill!=null).map(skill -> new SkillVO.Builder()
-                                .setLibelle(skill.getLibelle())
-                                .setTypeSkills(skill.getTypeSkills().getTitleSkill())
-                                .setDescription(skill.getDescription()).build())
+        .map(personFinded -> PersonVO.builder()
+            .mailAdresses(personFinded.getMailAdresses())
+            .birthDate(personFinded.getBirthDate())
+            .firstName(personFinded.getFirstName())
+            .lastName(personFinded.getLastName())
+            .profile(personFinded.getProfile().getProfileTitle())
+                .skillVOList(personFinded.getSkills().stream()
+                        .filter(skill -> skill!=null).map(skill ->  SkillVO.builder()
+                                .libelle(skill.getLibelle())
+                                .typeSkills(skill.getTypeSkills().getTitleSkill())
+                                .description(skill.getDescription()).build())
                         .collect(Collectors.toList()))
             .build())
         .collect(Collectors.toList());
@@ -118,17 +123,17 @@ public class PersonBSImpl implements PersonBS {
   public List<PersonVO> findListProfilesByProfileTitle(String profileTitle) {
     return personDAO.findListProfilesByProfileTitle(profileTitle)
             .stream()
-            .map(personFinded -> new PersonVO.Builder()
-                    .setMailAdresses(personFinded.getMailAdresses())
-                    .setBirthDate(personFinded.getBirthDate())
-                    .setFirstName(personFinded.getFirstName())
-                    .setLastName(personFinded.getLastName())
-                    .setProfile(personFinded.getProfile().getProfileTitle())
-                    .setSkills(personFinded.getSkills().stream()
-                            .map(skill -> new SkillVO.Builder()
-                                    .setLibelle(skill.getLibelle())
-                                    .setTypeSkills(skill.getTypeSkills().getTitleSkill())
-                                    .setDescription(skill.getDescription()).build())
+            .map(personFinded ->  PersonVO.builder()
+                    .mailAdresses(personFinded.getMailAdresses())
+                    .birthDate(personFinded.getBirthDate())
+                    .firstName(personFinded.getFirstName())
+                    .lastName(personFinded.getLastName())
+                    .profile(personFinded.getProfile().getProfileTitle())
+                    .skillVOList(personFinded.getSkills().stream()
+                            .map(skill ->  SkillVO.builder()
+                                    .libelle(skill.getLibelle())
+                                    .typeSkills(skill.getTypeSkills().getTitleSkill())
+                                    .description(skill.getDescription()).build())
                             .collect(Collectors.toList()))
                     .build())
             .collect(Collectors.toList());

@@ -5,9 +5,10 @@ import com.humanup.matrix.dao.entities.Profile;
 import com.humanup.matrix.vo.PersonVO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface PersonDAO extends CrudRepository<Person, Long> {
 
   Person findByMailAdresses(String mailAdresses);

@@ -8,7 +8,9 @@ import org.springframework.data.repository.CrudRepository;
 
 
 import com.humanup.matrix.dao.entities.Skill;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SkillDAO extends CrudRepository<Skill, Long> {
 
 	  Skill findSkillByLibelle(String libelle);
