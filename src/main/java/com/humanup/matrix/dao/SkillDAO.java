@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SkillDAO extends CrudRepository<Skill, Long> {
-
 	  Skill findSkillByLibelle(String libelle);
 	  List<Skill> findAll();
 	  Skill findById(long id);

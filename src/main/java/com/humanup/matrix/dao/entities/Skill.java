@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +16,7 @@ import java.util.Set;
 @Builder
 @ToString(of= {"id","libelle","description","typeSkills","persons"})
 @Entity
-public class Skill {
-
+public class Skill implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	 Long id;
@@ -34,5 +34,4 @@ public class Skill {
 			},
 			mappedBy = "skills")
 	 Set<Person> persons = new HashSet<>();
-
 }

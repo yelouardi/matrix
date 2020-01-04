@@ -18,7 +18,6 @@ import java.util.Set;
 @ToString(of= {"id","firstName","lastName","mailAdresses","birthDate","skills"})
 @Entity
 public class Person implements Serializable {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", updatable = false, nullable = false)
@@ -31,7 +30,6 @@ public class Person implements Serializable {
   @ManyToOne
   @JoinColumn(name = "profileId")
    Profile profile;
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -41,5 +39,4 @@ public class Person implements Serializable {
             joinColumns = { @JoinColumn(name = "person_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
      Set<Skill> skills = new HashSet<>();
-
 }
