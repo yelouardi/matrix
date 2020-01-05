@@ -22,7 +22,7 @@ public class ProfileBSImpl implements ProfileBS {
     private ProfileDAO profileDAO;
 
     @Override
-    @Transactional
+    @Transactional(transactionManager="transactionManagerWrite")
     public boolean createProfile(ProfileVO profileVO) {
         Profile profileToSave = Profile.builder()
                 .profileTitle(profileVO.getProfileTitle())

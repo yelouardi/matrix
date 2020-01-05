@@ -8,12 +8,14 @@ import com.humanup.matrix.dao.entities.TypeSkills;
 import com.humanup.matrix.vo.SkillVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class SkillBSImpl implements SkillBS {
 
     @Autowired
@@ -23,6 +25,7 @@ public class SkillBSImpl implements SkillBS {
     private TypeSkillsDAO typeSkillsDAO;
 
     @Override
+    @Transactional(transactionManager="transactionManagerWrite")
     public boolean createSkill(SkillVO skillVO) {
         TypeSkills typeSkills = typeSkillsDAO.findByTitleSkill(skillVO.getTypeSkills());
 
@@ -38,10 +41,13 @@ public class SkillBSImpl implements SkillBS {
     public SkillVO findSkillByLibelle(String libelle) {
         Optional<Skill> skillFinded = Optional.ofNullable(skillDAO.findSkillByLibelle(libelle));
         if (skillFinded.isPresent()) {
+            TypeSkills typeSkills = skillFinded.get().getTypeSkills();
             return  SkillVO.builder()
                     .libelle(skillFinded.get().getLibelle())
                     .description(skillFinded.get().getDescription())
-                    .typeSkills(skillFinded.get().getTypeSkills().getTitleSkill())
+                    .typeSkills(typeSkills.getTitleSkill())
+                    .idTypeSkills(typeSkills.getTypeId())
+
                     .build();
         }
         return null;

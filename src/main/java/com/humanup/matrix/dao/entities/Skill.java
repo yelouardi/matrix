@@ -16,16 +16,19 @@ import java.util.Set;
 @Builder
 @ToString(of= {"id","libelle","description","typeSkills","persons"})
 @Entity
+@Table(name = "skill")
 public class Skill implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	 Long id;
+	@Column(name="libelle")
 	 String libelle;
+	@Column(name="description")
 	 String description;
 
 	@ManyToOne
-	@JoinColumn(name = "typeId")
-	 TypeSkills typeSkills;
+	@JoinColumn(name = "type_id")
+	TypeSkills typeSkills;
 
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = {

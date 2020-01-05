@@ -26,7 +26,7 @@ public class TypeSkillsBSImpl implements TypeSkillsBS {
 	private TypeSkillsDAO typeSkillsDAO;
 
 	@Override
-	@Transactional
+	@Transactional(transactionManager="transactionManagerWrite")
 	public boolean createTypeSkills(TypeSkillsVO typeSkillsVO) {
 		TypeSkills typeToSave =  TypeSkills.builder()
 				.titleSkill(typeSkillsVO.getTitleSkill())
