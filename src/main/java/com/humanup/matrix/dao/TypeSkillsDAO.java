@@ -2,13 +2,14 @@ package com.humanup.matrix.dao;
 
 import com.humanup.matrix.dao.entities.TypeSkills;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public interface TypeSkillsDAO extends CrudRepository<TypeSkills, Long> {
+public interface TypeSkillsDAO extends JpaRepository<TypeSkills, Long> {
 	TypeSkills findByTitleSkill(String titleSkill);
     List<TypeSkills> findAll();
     TypeSkills findByTypeId(long typeId);

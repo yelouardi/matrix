@@ -19,8 +19,11 @@ import java.util.List;
 public class TypeSkills implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="type_id")
 	 Long typeId;
+	@Column(name="title_skill")
 	 String titleSkill;
-	@OneToMany(mappedBy="typeSkills",fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy="typeSkills",fetch=FetchType.EAGER)
 	 List<Skill> skillList;
 }

@@ -19,10 +19,13 @@ import java.util.List;
 public class Profile implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="profile_id")
      Long profileId;
+    @Column(name="profile_title")
      String profileTitle;
+    @Column(name="profile_description")
      String profileDescription;
-    @OneToMany(mappedBy="profile",fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="profile",fetch=FetchType.EAGER)
      List<Person> personList;
 
 }

@@ -43,7 +43,7 @@ public class PersonBSImpl implements PersonBS {
   private SkillDAO skillDAO;
 
   @Override
-  @Transactional(rollbackFor = ProfileException.class)
+  @Transactional(transactionManager="transactionManagerWrite",rollbackFor = ProfileException.class)
   public boolean createPerson(PersonVO personVO) throws ProfileException {
     Profile profile = profileDAO.findByProfileTitle(personVO.getProfile());
     String email =  personVO.getMailAdresses();
@@ -62,7 +62,7 @@ public class PersonBSImpl implements PersonBS {
   }
 
   @Override
-  @Transactional(rollbackFor = ProfileException.class)
+  @Transactional(transactionManager="transactionManagerWrite",rollbackFor = ProfileException.class)
   public boolean addSkillsPerson(List<Integer> skills,String email) throws ProfileException {
     Person personToUpdate = personDAO.findByMailAdresses(email);
     if(null == personToUpdate || null == email || StringUtils.isEmpty(email)){
@@ -89,10 +89,14 @@ public class PersonBSImpl implements PersonBS {
           .lastName(personFinded.get().getLastName())
               .profile(personFinded.get().getProfile().getProfileTitle())
               .skillVOList(personFinded.get().getSkills().stream()
-              .map(skill -> SkillVO.builder()
-              .libelle(skill.getLibelle())
-                      .typeSkills(skill.getTypeSkills().getTitleSkill())
-              .description(skill.getDescription()).build())
+              .map(skill -> {
+                TypeSkills typeSkills = skill.getTypeSkills();
+                return SkillVO.builder()
+                .libelle(skill.getLibelle())
+                        .typeSkills(typeSkills.getTitleSkill())
+                        .idTypeSkills(typeSkills.getTypeId())
+                .description(skill.getDescription()).build();
+              })
               .collect(Collectors.toList()))
               .build();
     }
@@ -110,10 +114,14 @@ public class PersonBSImpl implements PersonBS {
             .lastName(personFinded.getLastName())
             .profile(personFinded.getProfile().getProfileTitle())
                 .skillVOList(personFinded.getSkills().stream()
-                        .filter(skill -> skill!=null).map(skill ->  SkillVO.builder()
-                                .libelle(skill.getLibelle())
-                                .typeSkills(skill.getTypeSkills().getTitleSkill())
-                                .description(skill.getDescription()).build())
+                        .filter(skill -> skill!=null).map(skill -> {
+                          TypeSkills typeSkills = skill.getTypeSkills();
+                          return SkillVO.builder()
+                                  .libelle(skill.getLibelle())
+                                  .typeSkills(typeSkills.getTitleSkill())
+                                  .idTypeSkills(typeSkills.getTypeId())
+                                  .description(skill.getDescription()).build();
+                        })
                         .collect(Collectors.toList()))
             .build())
         .collect(Collectors.toList());
@@ -130,10 +138,14 @@ public class PersonBSImpl implements PersonBS {
                     .lastName(personFinded.getLastName())
                     .profile(personFinded.getProfile().getProfileTitle())
                     .skillVOList(personFinded.getSkills().stream()
-                            .map(skill ->  SkillVO.builder()
-                                    .libelle(skill.getLibelle())
-                                    .typeSkills(skill.getTypeSkills().getTitleSkill())
-                                    .description(skill.getDescription()).build())
+                            .map(skill -> {
+                              TypeSkills typeSkills = skill.getTypeSkills();
+                              return SkillVO.builder()
+                                      .libelle(skill.getLibelle())
+                                      .typeSkills(typeSkills.getTitleSkill())
+                                      .idTypeSkills(typeSkills.getTypeId())
+                                      .description(skill.getDescription()).build();
+                            })
                             .collect(Collectors.toList()))
                     .build())
             .collect(Collectors.toList());
