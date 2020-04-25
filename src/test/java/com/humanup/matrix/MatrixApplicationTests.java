@@ -1,13 +1,11 @@
 package com.humanup.matrix;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MatrixApplicationTests {
+public class MatrixApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+  @Test
+  public void testFind() throws Exception {}
 }
