@@ -1,5 +1,6 @@
 package com.humanup.matrix.controllers;
 
+import com.humanup.matrix.aop.dto.SkillException;
 import com.humanup.matrix.bs.PersonBS;
 import com.humanup.matrix.aop.dto.PersonException;
 import com.humanup.matrix.vo.PersonVO;
@@ -47,7 +48,7 @@ public class PersonController {
   public ResponseEntity addPersonSkills(
       @RequestParam(value = "email", defaultValue = "robot@sqli.com") String email,
       @RequestBody List<Integer> skills)
-      throws PersonException {
+          throws PersonException, SkillException {
     Optional<Object> findPerson = Optional.ofNullable(personBS.addSkillsPerson(skills, email));
     if (findPerson.isEmpty()) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden Skills Information");
