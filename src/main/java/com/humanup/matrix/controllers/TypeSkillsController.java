@@ -33,7 +33,7 @@ public class TypeSkillsController {
       return ResponseEntity.status(HttpStatus.FOUND).body("This type is Founded");
     }
     typeSkillsBS.createTypeSkills(typeSkills);
-    return ResponseEntity.status(HttpStatus.CREATED).body(typeSkillsBS);
+    return ResponseEntity.status(HttpStatus.CREATED).body(typeSkills);
   }
 
   @Operation(
