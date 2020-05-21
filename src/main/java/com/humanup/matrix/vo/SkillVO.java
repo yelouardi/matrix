@@ -1,6 +1,5 @@
 package com.humanup.matrix.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
